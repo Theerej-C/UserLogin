@@ -16,14 +16,25 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserServiceImplementation implements UserService {
 	@Autowired
-    private UserRepo userRepo;
-    @Override
-    public User create(User user) {
-        return userRepo.save(user);
-    }
+	private UserRepo userRepo;
+
+	@Override
+	public User create(User user) {
+		return userRepo.save(user);
+	}
+
 	@Override
 	public boolean delete(Long id) {
 		userRepo.deleteById(id);
 		return true;
+	}
+
+	@Override
+	public boolean login(String name, String password) {
+		User user = userRepo.findByuName(name);
+		if (user == null) {
+			return false;
+		}
+		return user.getPassword().equals(password);
 	}
 }
